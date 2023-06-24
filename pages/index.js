@@ -1,7 +1,6 @@
-import Layout from '../components/Layout';
-import UploadContract from '../components/UploadContract';
-import SelectChains from '../components/SelectChains';
-import Header from '../components/Header';
+import Layout from "../components/Layout";
+import SelectChains from "../components/SelectValues";
+import Header from "../components/Header";
 
 export default function Home() {
   return (
@@ -9,7 +8,6 @@ export default function Home() {
       <Header />
       <Layout>
         <SelectChains />
-        <UploadContract />
       </Layout>
     </>
   );

@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Link } from "@chakra-ui/react";
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const { ethereum } = typeof window !== "undefined" ? window : {};
@@ -54,9 +54,6 @@ const Header = () => {
       }
     }
   };
-  
-  
-  
 
   useEffect(() => {
     if (checkEthereumExists()) {
@@ -88,19 +85,29 @@ const Header = () => {
         color="white"
         bgGradient="linear(to-r, blue.400, blue.700)"
       >
-        <Box onClick={() => handleClick("/")} cursor="pointer" display="flex" alignItems="center">
-          <img src="/logo.png" alt="Logo" width={32} height={32} style={{ marginRight: "0.5rem" }} />
+        <Box
+          onClick={() => handleClick("/")}
+          cursor="pointer"
+          display="flex"
+          alignItems="center"
+        >
+          <img
+            src="/logo.png"
+            alt="Logo"
+            width={45}
+            height={45}
+            style={{ marginRight: "0.5rem" }}
+          />
           <span>Smarter Contract</span>
         </Box>
         <Box marginLeft="auto">
-          <Link onClick={() => handleClick("/product")} marginRight="1.5rem">
-            Product
-          </Link>
           <Link onClick={() => handleClick("/team")} marginRight="1.5rem">
             Meet the Team
           </Link>
           <Button onClick={connectWallet} colorScheme="teal">
-            {account ? `Disconnect Wallet (${publicKey.slice(0, 5)})` : "Connect Wallet"}
+            {account
+              ? `Disconnect Wallet (${publicKey.slice(0, 5)})`
+              : "Connect Wallet"}
           </Button>
         </Box>
       </Flex>
