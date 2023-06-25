@@ -1,21 +1,35 @@
-import { useState } from 'react';
-import { Box, Button, Checkbox, HStack, VStack, Spinner } from "@chakra-ui/react";
-import Image from 'next/image';
 
-const SelectChains = () => {
-  const [selectedChains, setSelectedChains] = useState([]);
+import { useState } from 'react';
+import { Box, Button, Radio, RadioGroup, HStack, VStack, Spinner } from "@chakra-ui/react";
+import Image from 'next/image';
+import { Flex, Input, FormControl, FormLabel } from "@chakra-ui/react";
+
+const InputRow = () => {
+  return (
+    <Flex width="100%" justifyContent="space-between">
+      <FormControl id="input-1" maxW="45%">
+        <FormLabel>Input 1</FormLabel>
+        <Input placeholder="Enter value for Input 1" />
+      </FormControl>
+      <FormControl id="input-2" maxW="45%">
+        <FormLabel>Input 2</FormLabel>
+        <Input placeholder="Enter value for Input 2" />
+      </FormControl>
+    </Flex>
+  );
+};
+
+const SelectOprand = () => {
+  const [selectedChain, setSelectedChain] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleCheckboxChange = (value) => {
-    if (selectedChains.includes(value)) {
-      setSelectedChains(selectedChains.filter((chain) => chain !== value));
-    } else {
-      setSelectedChains([...selectedChains, value]);
-    }
+  const handleRadioChange = (value) => {
+    setSelectedChain(value);
   };
 
-  const handleDeploy = () => {
+  const handleCall = () => {
+    //TODO: send the oprand 
     setIsLoading(true);
 
     // Simulate loading for 3 seconds
@@ -29,7 +43,7 @@ const SelectChains = () => {
     setShowPopup(false);
   };
 
-  const isDeployDisabled = selectedChains.length === 0;
+  const isDeployDisabled = selectedChain === null;
 
   return (
     <VStack
@@ -45,24 +59,28 @@ const SelectChains = () => {
       <Box fontSize="xl" fontWeight="bold">
         Select destination chains
       </Box>
-      <HStack spacing={12} marginTop="5rem" padding="1rem">
-        <Checkbox value="fantom" onChange={() => handleCheckboxChange('Fantom')}>
-          <Image src="/fantom.png" alt="Fantom Logo" width={50} height={50} />
-          Fantom
-        </Checkbox>
-        <Checkbox value="avalanche" onChange={() => handleCheckboxChange('Avalanche')}>
-          <Image src="/avalanche.png" alt="Avalanche Logo" width={50} height={50} />
-          Avalanche
-        </Checkbox>
-        <Checkbox value="polygon" onChange={() => handleCheckboxChange('Polygon')}>
-          <Image src="/polygon.png" alt="Polygon Logo" width={50} height={50} />
-          Polygon
-        </Checkbox>
-      </HStack>
-      <Button colorScheme="purple" isDisabled={isDeployDisabled} onClick={handleDeploy}>
+      <RadioGroup onChange={handleRadioChange} value={selectedChain}>
+        <HStack spacing={12} marginTop="5rem" padding="1rem">
+          <Radio value="fantom">
+            <Image src="/fantom.png" alt="Fantom Logo" width={50} height={50} />
+            Add
+          </Radio>
+          <Radio value="avalanche">
+            <Image src="/avalanche.png" alt="Avalanche Logo" width={50} height={50} />
+            Multiple
+          </Radio>
+          <Radio value="polygon">
+            <Image src="/polygon.png" alt="Polygon Logo" width={50} height={50} />
+            Subtract
+          </Radio>
+        </HStack>
+        <InputRow></InputRow>
+      </RadioGroup>
+      <Button colorScheme="purple" isDisabled={isDeployDisabled} onClick={handleCall}>
         Deploy
       </Button>
 
+      
       {isLoading && (
         <Box
           position="fixed"
@@ -109,8 +127,9 @@ const SelectChains = () => {
           </Box>
         </Box>
       )}
+
     </VStack>
   );
 };
 
-export default SelectChains;
+export default SelectOprand;
