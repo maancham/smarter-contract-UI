@@ -8,8 +8,8 @@ export default function Home() {
     <>
       <Header />
       <Layout>
-        <UploadContract />
         <SelectChains />
+        <UploadContract />
       </Layout>
     </>
   );

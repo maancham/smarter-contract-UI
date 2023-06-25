@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, Radio, RadioGroup, HStack, VStack, Spinner } from "@chakra-ui/react";
 import Image from 'next/image';
 import { Flex, Input, FormControl, FormLabel } from "@chakra-ui/react";
@@ -19,25 +18,38 @@ const InputRow = () => {
   );
 };
 
-const SelectOprand = () => {
+const SelectChains = () => {
   const [selectedChain, setSelectedChain] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [serverResponse, setServerResponse] = useState(null);
 
   const handleRadioChange = (value) => {
     setSelectedChain(value);
   };
 
   const handleCall = () => {
-    //TODO: send the oprand 
     setIsLoading(true);
-
-    // Simulate loading for 3 seconds
-    setTimeout(() => {
+    fetch('https://smarter-server.onrender.com/runScript', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          origin: 'Ethereum',
+          operator: 'add',
+          first: '1',
+          second: '1'
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      setServerResponse(data.message);
       setIsLoading(false);
-      setShowPopup(true);
-    }, 3000);
-  };
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      setIsLoading(false);
+    });
+  }
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -62,22 +74,22 @@ const SelectOprand = () => {
       <RadioGroup onChange={handleRadioChange} value={selectedChain}>
         <HStack spacing={12} marginTop="5rem" padding="1rem">
           <Radio value="fantom">
-            <Image src="/fantom.png" alt="Fantom Logo" width={50} height={50} />
+            <Image src="/add.png" alt="Add Logo" width={50} height={50} />
             Add
           </Radio>
           <Radio value="avalanche">
-            <Image src="/avalanche.png" alt="Avalanche Logo" width={50} height={50} />
+            <Image src="/multiple.png" alt="Multiple Logo" width={50} height={50} />
             Multiple
           </Radio>
           <Radio value="polygon">
-            <Image src="/polygon.png" alt="Polygon Logo" width={50} height={50} />
+            <Image src="/subtract.png" alt="Subtract Logo" width={50} height={50} />
             Subtract
           </Radio>
         </HStack>
         <InputRow></InputRow>
       </RadioGroup>
-      <Button colorScheme="purple" isDisabled={isDeployDisabled} onClick={handleCall}>
-        Deploy
+      <Button colorScheme="blue" isDisabled={isDeployDisabled} onClick={handleCall}>
+        Call
       </Button>
 
       
@@ -127,9 +139,17 @@ const SelectOprand = () => {
           </Box>
         </Box>
       )}
-
+      <div style={{
+          backgroundColor: 'black',
+          color: 'lime',
+          padding: '10px',
+          whiteSpace: 'pre-line',
+          fontFamily: 'monospace',
+      }}>
+          {serverResponse}
+      </div>
     </VStack>
   );
 };
 
-export default SelectOprand;
+export default SelectChains;

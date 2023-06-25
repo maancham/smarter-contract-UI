@@ -86,11 +86,11 @@ const Header = () => {
         align="center"
         padding="1.5rem"
         color="white"
-        bgGradient="linear(to-r, purple.400, purple.700)"
+        bgGradient="linear(to-r, blue.400, blue.700)"
       >
         <Box onClick={() => handleClick("/")} cursor="pointer" display="flex" alignItems="center">
           <img src="/logo.png" alt="Logo" width={32} height={32} style={{ marginRight: "0.5rem" }} />
-          <span>Glue</span>
+          <span>Smarter Contract</span>
         </Box>
         <Box marginLeft="auto">
           <Link onClick={() => handleClick("/product")} marginRight="1.5rem">
