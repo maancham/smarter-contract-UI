@@ -71,7 +71,7 @@ const SelectChains = () => {
       operatorValue = 2;
     }
 
-    fetch("http://localhost:3001/runScript", {
+    fetch("https://smarter-server.onrender.com/runScript", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
